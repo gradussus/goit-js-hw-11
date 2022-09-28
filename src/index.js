@@ -5,10 +5,10 @@ import Notiflix from 'notiflix';
 
 const searchForm = document.querySelector('#search-form');
 const galleryEl = document.querySelector('.gallery');
-var lightbox = new SimpleLightbox('.gallery a')
+var lightbox = new SimpleLightbox('.gallery a');
 let currentPage = 1;
-const forObserver = (document.querySelector('.forObserver'))
-forObserver.style.display = 'none'
+const forObserver = document.querySelector('.forObserver');
+forObserver.style.display = 'none';
 
 searchForm.addEventListener('submit', e => {
   e.preventDefault();
@@ -22,23 +22,21 @@ async function request(req) {
 }
 
 async function searchPhoto(v) {
-  galleryEl.innerHTML = '';
   const { data } = await request(v);
   if (searchForm.searchQuery.value.length === 0) {
-    Notiflix.Notify.info(
-      `Напиши що саме ти хочеш побачити`
-    );
-    return
+    galleryEl.innerHTML = '';
+    Notiflix.Notify.info(`Напиши що саме ти хочеш побачити`);
+    return;
   }
   if (data.hits.length === 0) {
+    galleryEl.innerHTML = '';
     Notiflix.Notify.info(
       'Sorry, there are no images matching your search query. Please try again.'
     );
     return;
-    
   }
-  Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`)
-  forObserver.style.display = 'inline'
+  Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
+  forObserver.style.display = 'inline';
   currentPage = 1;
   createIcons(data.hits);
   lightbox.refresh();
@@ -80,18 +78,20 @@ function createIcons(arr) {
       </div>
     </div>
     </a>
-  </div>`
-  })
-  arrMarkup.forEach (m => {
-    galleryEl.insertAdjacentHTML('beforeend', m)
-})
+  </div>`;
+  });
+  arrMarkup.forEach(m => {
+    galleryEl.insertAdjacentHTML('beforeend', m);
+  });
 }
 // InfiniteScroll
 
 const callback = entries => {
-  entries.forEach(entry =>{
+  entries.forEach(entry => {
     if (entry.isIntersecting) {
-    dowloadNewImages()}});
+      dowloadNewImages();
+    }
+  });
 };
 
 const observer = new IntersectionObserver(callback, {
