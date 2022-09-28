@@ -7,6 +7,8 @@ const searchForm = document.querySelector('#search-form');
 const galleryEl = document.querySelector('.gallery');
 var lightbox = new SimpleLightbox('.gallery a')
 let currentPage = 1;
+const forObserver = (document.querySelector('.forObserver'))
+forObserver.style.display = 'none'
 
 searchForm.addEventListener('submit', e => {
   e.preventDefault();
@@ -27,6 +29,7 @@ async function searchPhoto(v) {
     );
     return;
   }
+  forObserver.style.display = 'inline'
   currentPage = 1;
   galleryEl.innerHTML = '';
   createIcons(data.hits);
@@ -48,7 +51,7 @@ async function dowloadNewImages() {
 function createIcons(arr) {
   let arrMarkup = arr.map(e => {
     return `<div class="photo-card">
-    <a href="${e.largeImageURL}"><img src="${e.webformatURL}" alt="${e.tags}" loading="lazy" width="240" /></a>
+    <a href="${e.largeImageURL}"><img src="${e.webformatURL}" alt="${e.tags}" loading="lazy"/></a>
     <div class="info">
       <p class="info-item">
         <b>Likes: ${e.likes}</b>
@@ -74,12 +77,10 @@ function createIcons(arr) {
 const callback = entries => {
   entries.forEach(entry =>{
     if (entry.isIntersecting) {
-      console.log (entry.isIntersecting)
-      console.log (entry.target)
     dowloadNewImages()}});
 };
 
 const observer = new IntersectionObserver(callback, {
-  rootMargin: '150px',
+  rootMargin: '350px',
 });
-observer.observe(document.querySelector('.forObserver'));
+observer.observe(forObserver);
