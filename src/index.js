@@ -22,16 +22,24 @@ async function request(req) {
 }
 
 async function searchPhoto(v) {
+  galleryEl.innerHTML = '';
   const { data } = await request(v);
+  if (searchForm.searchQuery.value.length === 0) {
+    Notiflix.Notify.info(
+      `Напиши що саме ти хочеш побачити`
+    );
+    return
+  }
   if (data.hits.length === 0) {
     Notiflix.Notify.info(
       'Sorry, there are no images matching your search query. Please try again.'
     );
     return;
+    
   }
+  Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`)
   forObserver.style.display = 'inline'
   currentPage = 1;
-  galleryEl.innerHTML = '';
   createIcons(data.hits);
   lightbox.refresh();
 }
@@ -51,21 +59,27 @@ async function dowloadNewImages() {
 function createIcons(arr) {
   let arrMarkup = arr.map(e => {
     return `<div class="photo-card">
-    <a href="${e.largeImageURL}"><img src="${e.webformatURL}" alt="${e.tags}" loading="lazy"/></a>
+    <a href="${e.largeImageURL}">
+    <img src="${e.webformatURL}" alt="${e.tags}" loading="lazy"/>
     <div class="info">
-      <p class="info-item">
-        <b>Likes: ${e.likes}</b>
-      </p>
-      <p class="info-item">
-        <b>Views: ${e.views}</b>
-      </p>
-      <p class="info-item">
-        <b>Comments: ${e.comments}</b>
-      </p>
-      <p class="info-item">
-        <b>Downloads: ${e.downloads}</b>
-      </p>
+      <div class="info-item">
+        <span><b>Likes</b></span>
+        <span>${e.likes}</span>
+      </div>
+      <div class="info-item">
+        <span><b>Views</b></span>
+        <span>${e.views}</span>
+      </div>
+      <div class="info-item">
+        <span><b>Comments</b></span>
+        <span>${e.comments}</span>
+      </div>
+      <div class="info-item">
+        <span><b>Downloads</b></span>
+        <span>${e.downloads}</span>
+      </div>
     </div>
+    </a>
   </div>`
   })
   arrMarkup.forEach (m => {
