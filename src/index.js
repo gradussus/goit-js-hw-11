@@ -21,21 +21,23 @@ async function request(req) {
 
 async function searchPhoto(v) {
   const { data } = await request(v);
-  galleryEl.innerHTML = '';
-  createIcons(data.hits);
-  lightbox.refresh();
   if (data.hits.length === 0) {
     Notiflix.Notify.info(
       'Sorry, there are no images matching your search query. Please try again.'
     );
     return;
   }
+  currentPage = 1;
+  galleryEl.innerHTML = '';
+  createIcons(data.hits);
+  lightbox.refresh();
 }
 
 async function dowloadNewImages() {
-  const { data } = await request();
+  const { data } = await request(searchForm.searchQuery.value);
   currentPage += 1;
-  arrMarkup(data.hits);
+  createIcons(data.hits);
+  console.log ('asdasd')
   lightbox.refresh();
   if (document.querySelectorAll('.photo-card').length === data.totalHits) {
     Notiflix.Notify.info(
@@ -68,20 +70,13 @@ function createIcons(arr) {
     galleryEl.insertAdjacentHTML('beforeend', m)
 })
 }
-
 // InfiniteScroll
 
 const callback = entries => {
-  entries.forEach(entry => dowloadNewImages());
+  entries.forEach(entry =>{
+    if (entry.isIntersecting){
+    dowloadNewImages()}});
 };
-
-searchForm.addEventListener('submit', e => {
-  e.preventDefault();
-  galleryEl.innerHTML = '';
-  currentPage = 1;
-  // console.log(searchForm.searchQuery.value);
-  searchPhoto(searchForm.searchQuery.value);
-});
 
 const observer = new IntersectionObserver(callback, {
   rootMargin: '150px',
