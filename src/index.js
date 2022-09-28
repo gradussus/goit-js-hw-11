@@ -23,13 +23,14 @@ async function request(req) {
 
 async function searchPhoto(v) {
   const { data } = await request(v);
+  galleryEl.innerHTML = '';
   if (searchForm.searchQuery.value.length === 0) {
-    galleryEl.innerHTML = '';
+    forObserver.style.display = 'none';
     Notiflix.Notify.info(`Напиши що саме ти хочеш побачити`);
     return;
   }
   if (data.hits.length === 0) {
-    galleryEl.innerHTML = '';
+    forObserver.style.display = 'none';
     Notiflix.Notify.info(
       'Sorry, there are no images matching your search query. Please try again.'
     );
