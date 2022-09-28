@@ -37,7 +37,6 @@ async function dowloadNewImages() {
   const { data } = await request(searchForm.searchQuery.value);
   currentPage += 1;
   createIcons(data.hits);
-  console.log ('asdasd')
   lightbox.refresh();
   if (document.querySelectorAll('.photo-card').length === data.totalHits) {
     Notiflix.Notify.info(
@@ -74,12 +73,13 @@ function createIcons(arr) {
 
 const callback = entries => {
   entries.forEach(entry =>{
-    if (entry.isIntersecting){
+    if (entry.isIntersecting) {
+      console.log (entry.isIntersecting)
+      console.log (entry.target)
     dowloadNewImages()}});
 };
 
 const observer = new IntersectionObserver(callback, {
   rootMargin: '150px',
 });
-
 observer.observe(document.querySelector('.forObserver'));
