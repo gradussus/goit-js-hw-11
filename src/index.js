@@ -5,8 +5,7 @@ import Notiflix from 'notiflix';
 
 const searchForm = document.querySelector('#search-form');
 const galleryEl = document.querySelector('.gallery');
-var lightbox = new SimpleLightbox('.gallery a');
-
+var lightbox = new SimpleLightbox('.gallery a')
 let currentPage = 1;
 
 searchForm.addEventListener('submit', e => {
@@ -22,9 +21,9 @@ async function request(req) {
 
 async function searchPhoto(v) {
   const { data } = await request(v);
-  console.log(request(v));
-  console.log(data.hits);
-  console.log(searchForm.searchQuery.value);
+  galleryEl.innerHTML = '';
+  createIcons(data.hits);
+  lightbox.refresh();
   if (data.hits.length === 0) {
     Notiflix.Notify.info(
       'Sorry, there are no images matching your search query. Please try again.'
@@ -36,7 +35,7 @@ async function searchPhoto(v) {
 async function dowloadNewImages() {
   const { data } = await request();
   currentPage += 1;
-  galleryMarkup(data.hits);
+  arrMarkup(data.hits);
   lightbox.refresh();
   if (document.querySelectorAll('.photo-card').length === data.totalHits) {
     Notiflix.Notify.info(
@@ -45,22 +44,47 @@ async function dowloadNewImages() {
   }
 }
 
+function createIcons(arr) {
+  let arrMarkup = arr.map(e => {
+    return `<div class="photo-card">
+    <a href="${e.largeImageURL}"><img src="${e.webformatURL}" alt="${e.tags}" loading="lazy" width="240" /></a>
+    <div class="info">
+      <p class="info-item">
+        <b>Likes: ${e.likes}</b>
+      </p>
+      <p class="info-item">
+        <b>Views: ${e.views}</b>
+      </p>
+      <p class="info-item">
+        <b>Comments: ${e.comments}</b>
+      </p>
+      <p class="info-item">
+        <b>Downloads: ${e.downloads}</b>
+      </p>
+    </div>
+  </div>`
+  })
+  arrMarkup.forEach (m => {
+    galleryEl.insertAdjacentHTML('beforeend', m)
+})
+}
+
 // InfiniteScroll
 
-// const callback = entries => {
-//   entries.forEach(entry => dowloadNewImages());
-// };
+const callback = entries => {
+  entries.forEach(entry => dowloadNewImages());
+};
 
-// searchForm.addEventListener('submit', e => {
-//   e.preventDefault();
-//   galleryEl.innerHTML = '';
-//   currentPage = 1;
-//   // console.log(searchForm.searchQuery.value);
-//   searchPhoto(searchForm.searchQuery.value);
-// });
+searchForm.addEventListener('submit', e => {
+  e.preventDefault();
+  galleryEl.innerHTML = '';
+  currentPage = 1;
+  // console.log(searchForm.searchQuery.value);
+  searchPhoto(searchForm.searchQuery.value);
+});
 
-// const observer = new IntersectionObserver(callback, {
-//   rootMargin: '150px',
-// });
+const observer = new IntersectionObserver(callback, {
+  rootMargin: '150px',
+});
 
-// observer.observe(document.querySelector('.forObserver'));
+observer.observe(document.querySelector('.forObserver'));
