@@ -22,8 +22,8 @@ async function request(req) {
 }
 
 async function searchPhoto(v) {
+  forObserver.style.display = 'none';
   currentPage = 1;
-  // forObserver.style.display = 'none';
   galleryEl.innerHTML = '';
   const { data } = await request(v);
   if (searchForm.searchQuery.value.length === 0) {
@@ -41,7 +41,10 @@ async function searchPhoto(v) {
   Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
   createIcons(data.hits);
   lightbox.refresh();
-  forObserver.style.display = 'inline';
+  setTimeout(() => {
+    forObserver.style.display = 'inline';
+  }, 2000);
+  // forObserver.style.display = 'inline';
   console.log(document.querySelectorAll('.photo-card').length);
 }
 
