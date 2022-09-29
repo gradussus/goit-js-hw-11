@@ -55,6 +55,7 @@ async function dowloadNewImages() {
   lightbox.refresh();
   console.log(document.querySelectorAll('.photo-card').length);
   if (document.querySelectorAll('.photo-card').length === data.totalHits) {
+    forObserver.style.display = 'none';
     Notiflix.Notify.info(
       "We're sorry, but you've reached the end of search results."
     );
