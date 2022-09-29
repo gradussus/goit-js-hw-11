@@ -1,61 +1,61 @@
-a{
-    text-decoration: none;
-        color: black;
-        font-weight: bold;
+a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
 }
 * {
-    box-sizing: border-box;
-  }
-img{
-    display: block;
-    max-width: 100%;
-    height: auto;
-  }
+  box-sizing: border-box;
+}
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
 .photo-card {
-    display: flex;
-    flex-direction: column;
-    border: 1px;
-    border-color: aqua;
-    padding: 10px;
-    margin: 10px;
-    width: calc(100% / 4 - 40px);
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
-    1px 4px 6px rgba(0, 0, 0, 0.16);}
-    
+  display: flex;
+  flex-direction: column;
+  border: 1px;
+  border-color: aqua;
+  padding: 10px;
+  margin: 10px;
+  width: calc(100% / 4 - 40px);
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.12), 0px 4px 4px rgba(0, 0, 0, 0.06),
+    1px 4px 6px rgba(0, 0, 0, 0.16);
+}
 
-  .photo-card:hover {
-    transform: scale(1.03);
-    transition: transform 100ms ease-in-out;
-  }
-  .photo-card:focus {
-    transform: scale(1.03);
-    transition: transform 100ms ease-in-out;
-  }
+.photo-card:hover {
+  transform: scale(1.03);
+  transition: transform 100ms ease-in-out;
+}
+.photo-card:focus {
+  transform: scale(1.03);
+  transition: transform 100ms ease-in-out;
+}
 .gallery {
-    display: flex;
-justify-content: center;
-align-items:center;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
-.info-item{
-    display: flex;
-    flex-direction: column;
-    width: calc(100% / 4 - 4px);
-    border: 2px solid rgb(124, 124, 124);
-    align-items: center;
-    span {
-        margin: 5px;
-    }
+.info-item {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% / 4 - 4px);
+  border: 2px solid rgb(124, 124, 124);
+  align-items: center;
+  span {
+    margin: 5px;
+  }
 }
-.info{
-    display: flex;
-    justify-content: space-around;
-    margin-top: 5px;
+.info {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 5px;
 }
-.search-form{
-    height: 60px;
-    background-color: rgb(82, 82, 235);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.search-form {
+  height: 60px;
+  background-color: rgb(82, 82, 235);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

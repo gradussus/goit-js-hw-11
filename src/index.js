@@ -22,8 +22,10 @@ async function request(req) {
 }
 
 async function searchPhoto(v) {
-  const { data } = await request(v);
+  currentPage = 1;
+  // forObserver.style.display = 'none';
   galleryEl.innerHTML = '';
+  const { data } = await request(v);
   if (searchForm.searchQuery.value.length === 0) {
     forObserver.style.display = 'none';
     Notiflix.Notify.info(`Напиши що саме ти хочеш побачити`);
@@ -37,17 +39,18 @@ async function searchPhoto(v) {
     return;
   }
   Notiflix.Notify.success(`Hooray! We found ${data.totalHits} images.`);
-  forObserver.style.display = 'inline';
-  currentPage = 1;
   createIcons(data.hits);
   lightbox.refresh();
+  forObserver.style.display = 'inline';
+  console.log(document.querySelectorAll('.photo-card').length);
 }
 
 async function dowloadNewImages() {
-  const { data } = await request(searchForm.searchQuery.value);
   currentPage += 1;
+  const { data } = await request(searchForm.searchQuery.value);
   createIcons(data.hits);
   lightbox.refresh();
+  console.log(document.querySelectorAll('.photo-card').length);
   if (document.querySelectorAll('.photo-card').length === data.totalHits) {
     Notiflix.Notify.info(
       "We're sorry, but you've reached the end of search results."
